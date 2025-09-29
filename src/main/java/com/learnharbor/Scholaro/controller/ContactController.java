@@ -1,0 +1,50 @@
+package com.learnharbor.Scholaro.controller;
+
+import com.learnharbor.Scholaro.model.Contact;
+import com.learnharbor.Scholaro.service.ContactService;
+import jakarta.validation.Valid;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
+
+@Controller
+public class ContactController {
+    private  static Logger log = LoggerFactory.getLogger(ContactController.class);
+
+    private final ContactService contactService;
+
+    @Autowired
+    public ContactController(ContactService contactService) {
+        this.contactService = contactService;
+    }
+
+
+    @RequestMapping("/contact")
+    public String displayContanctPage(Model model) {
+        model.addAttribute("contact", new Contact());
+        return "contact";
+    }
+
+
+
+    @RequestMapping(value = "/saveMsg", method = POST)
+    public String saveMessage(@Valid @ModelAttribute("contact") Contact contact, Errors errors) {
+        if(errors.hasErrors()) {
+            log.error("contact has errors due to " + errors.getAllErrors().toString());
+            return "contact.html";
+        }
+        contactService.saveMessageDetails(contact);
+        return "redirect:/contact";
+    }
+}
