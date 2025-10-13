@@ -1,15 +1,26 @@
 package com.learnharbor.Scholaro.model;
 
+import jakarta.persistence.*;
 import lombok.Data;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 
 @Data
-public class Contact {
+@Entity
+@Table(name = "contact_msg")
+public class Contact extends BaseEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "native")
+    @GenericGenerator(name = "native", strategy = "native")
+    @Column(name = "contact_id")
+    private int contactId;
 
 
     @NotBlank(message="Name must not be blank")
@@ -25,10 +36,13 @@ public class Contact {
     private String email;
 
     @NotBlank(message="Subject must not be blank")
-    @Size(min=5, message="Subject must be at least 5 characters long", max=20)
+    @Size(min=5, max=20, message="Subject must be at least 5 characters long and max 20")
     private String subject;
 
     @NotBlank(message="Message must not be blank")
     @Size(min=10, message="Message must be at least 10 characters long", max=500)
     private String message;
+
+
+    private String status;
 }
