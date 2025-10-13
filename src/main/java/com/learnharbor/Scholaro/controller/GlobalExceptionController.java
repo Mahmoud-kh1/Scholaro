@@ -19,12 +19,12 @@ public class GlobalExceptionController {
     exception type, so that ControllerAdvice can invoke this method
     logic if a given exception type is thrown inside the web application.
     * */
-//    @ExceptionHandler(Exception.class)
-//    public ModelAndView exceptionHandler(Exception exception){
-//        ModelAndView errorPage = new ModelAndView();
-//        errorPage.setViewName("error");
-//        errorPage.addObject( "errormsg", exception.getMessage().toString());
-//        return errorPage;
-//    }
+    @ExceptionHandler(Exception.class)
+    public ModelAndView exceptionHandler(Exception exception){
+        ModelAndView errorPage = new ModelAndView();
+        errorPage.setViewName("error");
+        errorPage.addObject( "errormsg", exception.getMessage().toString());
+        return errorPage;
+    }
 
 }
