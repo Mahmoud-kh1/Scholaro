@@ -31,8 +31,13 @@ public class PublicController {
     public String createUser(@Valid @ModelAttribute("person") Person person, Errors errors) {
         if (errors.hasErrors()) {
             return "register.html";
-        }
+          }
           personService.createNewPerson(person);
         return "redirect:/login?register=true";
+    }
+
+    @RequestMapping(value = "/about", method = {RequestMethod.GET})
+    public String displayAboutPage() {
+        return "about.html";
     }
 }
